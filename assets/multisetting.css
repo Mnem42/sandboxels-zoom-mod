@@ -1,0 +1,19 @@
+.zm_ms_row {
+    display: grid;
+    grid-template-columns: 2.2em 1fr;    
+}
+
+.zm_ms_row[data-current="false"] {
+    .zm_ms_selbtn { color: transparent }
+}
+
+.zm_ms_selbtn.zm_ms_selbtn:not(#_) {
+    height: 100%;
+    width: calc(100% - 10px);
+
+    margin-right: 2px;
+    padding: 0px;
+
+    border: 2px solid var(--theme);
+    font-size: 1.5em;
+}

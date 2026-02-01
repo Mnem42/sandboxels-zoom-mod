@@ -1,0 +1,69 @@
+#zm_data_div { margin-bottom: 10px }
+#canvasDiv   { overflow: hidden; background-color: var(--opac-85) }
+
+@media(pointer=coarse){
+    #zm_floater_container#zm_floater_container { 
+        width: 40%;
+        height: auto;
+    }
+    #zm_floater_container:has(#zm_collapse[data-collapsed="true"]){
+        width: calc(40% / 3);
+    }
+}
+
+@media(pointer:coarse) and (orientation:landscape){
+    #zm_floater_container#zm_floater_container {
+        width: auto;
+        top: 5px;
+    }
+    #zm_floater_container:has(#zm_collapse[data-collapsed="true"]){
+        width: calc(40% / 3);
+    }
+}
+
+#colorSelector { z-index: 1; right: 5px }
+#zm_floater_container {
+    position: absolute;
+    display: grid;
+
+    right: 5px;
+    bottom: 5px;
+    height: 100px;
+    aspect-ratio: 1;
+
+    max-width: 200px;
+    max-height: 200px;
+
+    border: 2px solid white;
+    background-color: black;
+    font-size: 120%;
+
+    button { text-align: center; border: 0px solid white }
+
+    button:where([data-pos="tl"]) { border-width: 0px 2px 2px 0px };
+    button:where([data-pos="tr"]) { border-width: 2px 2px 0px 0px };
+    button:where([data-pos="bl"]) { border-width: 0px 0px 2px 2px };
+    button:where([data-pos="br"]) { border-width: 2px 0px 0px 2px };
+}
+#zm_floater_container:has(#zm_collapse[data-collapsed="true"]) {
+    height: 50px;
+    
+    button:not(#zm_collapse) {
+        display: none;
+    }
+}
+#canvasDiv:has(#colorSelector[style *= "block"]) #zm_floater_container {
+    bottom: 50px;
+}
+
+.zm_corner { border: 2px solid white; }
+
+#zm_collapse {
+    grid-row: 3;
+    grid-column: 3;
+}
+#zm_collapse[data-collapsed="true"] {
+    grid-row: 1;
+    grid-column: 1;
+    border-width: 0px;
+}
