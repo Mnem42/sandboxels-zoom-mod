@@ -1,0 +1,13 @@
+#settingsMenu .zm_nml_btn_container button { font-size: 2em; padding: 0px; margin: 0px;}
+#settingsMenu .zm_nml_icontainer { align-self: center }
+#settingsMenu .zm_nml_setting { display: grid; grid-template-columns: 7em 1fr;}
+
+#settingsMenu .zm_nml_setting span {
+    input { width: 2em; margin-right: 4px; margin-bottom: 4px;}
+    
+    input:focus {
+        outline: none;
+        box-shadow: none;
+        border-color: white;
+    }
+}

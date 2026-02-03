@@ -74,10 +74,12 @@ export default class CustomSettingsManager {
         const zoom_levels = new Numlist(
             "Zoom levels",
             "zoom_levels",
-            [0.5, 1, 2, 3, 6, 12],
             "Zoom levels",
-            1,
-            validator
+            {
+                default_values: [0.5, 1, 2, 3, 6, 12],
+                step: 0.1,
+                custom_validator: validator
+            }
         )
 
         this.unl_zoom = new SettingGroup({

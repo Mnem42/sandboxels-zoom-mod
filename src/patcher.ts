@@ -1,9 +1,10 @@
+import NUMLIST_CSS from "../assets/numlist.css"
+import CustomSettingsManager from "./custom_settings"
+import MAIN_CSS from "../assets/main.css"
+import MULTISETTING_CSS from "../assets/multisetting.css"
 import CTRL_INFO from "../assets/ctrl_info.html"
 import FLOATER from "../assets/floater.html"
-import MAIN_CSS from "../assets/main.css"
-import NUMLIST_CSS from "../assets/numlist.css"
-import MULTISETTING_CSS from "../assets/multisetting.css"
-import CustomSettingsManager from "./custom_settings"
+import SPINNER_CSS from "../assets/spinner.css"
 
 export default class Patcher {
     public zoom_data_div: HTMLElement
@@ -22,7 +23,7 @@ export default class Patcher {
 
         dependOn("betterSettings.js", () => {
             const style_div = document.createElement("style")
-            style_div.innerHTML = NUMLIST_CSS + MULTISETTING_CSS
+            style_div.innerHTML = NUMLIST_CSS + MULTISETTING_CSS + SPINNER_CSS
 
             document.head.appendChild(style_div)
         })
@@ -38,6 +39,13 @@ export default class Patcher {
                 case "F": this.panmode_sel.innerText = "U"; break
                 case "U": this.panmode_sel.innerText = "C"; break
             }
+        }
+
+        const collapse_btn = document.getElementById("zm_collapse") as HTMLElement
+        collapse_btn.onclick = () => {
+            collapse_btn.dataset.collapsed = collapse_btn.dataset.collapsed == "true" 
+                ? "false"
+                : "true"
         }
 
         this.zoom_data_div = document.createElement("div")

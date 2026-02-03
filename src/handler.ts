@@ -150,9 +150,16 @@ export default class Handler {
     }
 
     patch_floater() {
-        (document.getElementById("zm_floater_u") as HTMLElement).onclick = () => this.handle_pan("up"   , this.speed());
-        (document.getElementById("zm_floater_d") as HTMLElement).onclick = () => this.handle_pan("down" , this.speed());
-        (document.getElementById("zm_floater_l") as HTMLElement).onclick = () => this.handle_pan("left" , this.speed());
-        (document.getElementById("zm_floater_r") as HTMLElement).onclick = () => this.handle_pan("right", this.speed());
+        function patch(id: string, fn: () => void){
+            (document.getElementById(id) as HTMLElement).onclick = fn;
+        }
+
+        patch("zm_floater_zi", () => this.handle_zoom("in"))
+        patch("zm_floater_zo", () => this.handle_zoom("out"))
+
+        patch("zm_floater_u", () => this.handle_pan("up"   , this.speed()))
+        patch("zm_floater_d", () => this.handle_pan("down" , this.speed()))
+        patch("zm_floater_l", () => this.handle_pan("left" , this.speed()))
+        patch("zm_floater_r", () => this.handle_pan("right", this.speed()))
     }
 }

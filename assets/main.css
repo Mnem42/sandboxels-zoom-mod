@@ -48,9 +48,7 @@
 #zm_floater_container:has(#zm_collapse[data-collapsed="true"]) {
     height: 50px;
     
-    button:not(#zm_collapse) {
-        display: none;
-    }
+    button:not(#zm_collapse) { display: none; }
 }
 #canvasDiv:has(#colorSelector[style *= "block"]) #zm_floater_container {
     bottom: 50px;

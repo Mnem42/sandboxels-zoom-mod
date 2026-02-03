@@ -8,22 +8,24 @@ export const def_classes = () => {
         constructor (
             name: string, 
             storage_name: string, 
-            default_values: number[] = [], 
-            desc = "", 
-            step = 1,
-            custom_validator = () => true,
-            disabled = false,
+            desc: string,
+            options: {
+                default_values?: number[], 
+                step?: number,
+                custom_validator?: () => boolean,
+                disabled?: boolean
+            }
         ) {
             super(
                 name, 
                 storage_name, 
                 [5, 0],
-                disabled,
-                default_values ?? [],
+                options.disabled,
+                options.default_values,
                 desc,
-                custom_validator
+                options.custom_validator
             );
-            this.step = step
+            this.step = options.step ?? 1
         }
 
         #new_input(value: number, i: number) {
