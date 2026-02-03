@@ -43,7 +43,7 @@ export default class Handler {
         runAfterReset(() => {
             this.zoom_level = 1
             this.zoom_panning = [0, 0]
-            this.rescale()
+            this.update()
         })
     }
 
@@ -79,7 +79,7 @@ export default class Handler {
 
             this.zoom_level = Number(this.zoom_level.toPrecision(3))
         }
-        this.rescale()
+        this.update()
     }
 
     public handle_pan(direction: "up" | "down" | "left" | "right", speed: number){
@@ -97,7 +97,7 @@ export default class Handler {
                 this.zoom_panning[1] -= speed
                 break;
         }   
-        this.rescale()        
+        this.update()        
     }
 
     scale(){
@@ -106,7 +106,7 @@ export default class Handler {
             : this.zoom_level
     }
 
-    rescale(){
+    update(){
         this.log_info()
 
         const x = this.zoom_panning[0] * (pixelSize * this.scale())
@@ -126,21 +126,49 @@ export default class Handler {
         this.patcher.zoom_data_div.innerText += `Pan  : ${x_pan}, ${y_pan}`
     }
 
+    kbd_speed_noshift(ev: KeyboardEvent){
+        return ev.altKey ? this.settings.upan_speed.value : this.settings.cpan_speed.value
+    }
+
     patch_keybinds(){
+        const pan_keys = this.settings.use_ijkl.value
+            ? ["i", "j", "k", "l"]
+            : ["w", "a", "s", "d"]
+        
+        // Too lazy to DRY
+        const pan_keys_upper = this.settings.use_ijkl.value
+            ? ["I", "J", "K", "L"]
+            : ["W", "A", "S", "D"]
+
         keybinds["9"] = () => this.handle_zoom("in")
         keybinds["0"] = () => this.handle_zoom("out")
 
-        keybinds["w"] = ev => this.handle_pan("up",    ev.altKey ? this.settings.upan_speed.value : this.settings.cpan_speed.value)
-        keybinds["a"] = ev => this.handle_pan("left",  ev.altKey ? this.settings.upan_speed.value : this.settings.cpan_speed.value)
-        keybinds["s"] = ev => this.handle_pan("down",  ev.altKey ? this.settings.upan_speed.value : this.settings.cpan_speed.value)
-        keybinds["d"] = ev => this.handle_pan("right", ev.altKey ? this.settings.upan_speed.value : this.settings.cpan_speed.value)
+        keybinds[pan_keys[0]] = ev => this.handle_pan("up",    this.kbd_speed_noshift(ev))
+        keybinds[pan_keys[1]] = ev => this.handle_pan("left",  this.kbd_speed_noshift(ev))
+        keybinds[pan_keys[2]] = ev => this.handle_pan("down",  this.kbd_speed_noshift(ev))
+        keybinds[pan_keys[3]] = ev => this.handle_pan("right", this.kbd_speed_noshift(ev))
 
-        keybinds["W"] = () => this.handle_pan("up",    this.settings.fpan_speed.value)
-        keybinds["A"] = () => this.handle_pan("left",  this.settings.fpan_speed.value)
-        keybinds["S"] = () => this.handle_pan("down",  this.settings.fpan_speed.value)
-        keybinds["D"] = () => this.handle_pan("right", this.settings.fpan_speed.value)
+        keybinds[pan_keys_upper[0]] = () => this.handle_pan("up",    this.settings.fpan_speed.value)
+        keybinds[pan_keys_upper[1]] = () => this.handle_pan("left",  this.settings.fpan_speed.value)
+        keybinds[pan_keys_upper[2]] = () => this.handle_pan("down",  this.settings.fpan_speed.value)
+        keybinds[pan_keys_upper[3]] = () => this.handle_pan("right", this.settings.fpan_speed.value)
+
+        if (this.settings.pan_zeroing_en.value) {
+            keybinds["q"] = () => {
+                this.zoom_panning = [0, 0]
+                this.update()
+            }
+        }
+
+        if (this.settings.zoom_zeroing_en.value) {
+            keybinds["p"] = () => {
+                if (this.settings.zoom.value == 1) this.zoom_level = 1
+                this.update()
+            }
+        }
     }
-    speed() {
+
+    floater_speed() {
         switch (this.patcher.panmode_sel.innerText) {
             case "C": return this.settings.cpan_speed.value
             case "F": return this.settings.fpan_speed.value
@@ -157,9 +185,9 @@ export default class Handler {
         patch("zm_floater_zi", () => this.handle_zoom("in"))
         patch("zm_floater_zo", () => this.handle_zoom("out"))
 
-        patch("zm_floater_u", () => this.handle_pan("up"   , this.speed()))
-        patch("zm_floater_d", () => this.handle_pan("down" , this.speed()))
-        patch("zm_floater_l", () => this.handle_pan("left" , this.speed()))
-        patch("zm_floater_r", () => this.handle_pan("right", this.speed()))
+        patch("zm_floater_u", () => this.handle_pan("up"   , this.floater_speed()))
+        patch("zm_floater_d", () => this.handle_pan("down" , this.floater_speed()))
+        patch("zm_floater_l", () => this.handle_pan("left" , this.floater_speed()))
+        patch("zm_floater_r", () => this.handle_pan("right", this.floater_speed()))
     }
 }

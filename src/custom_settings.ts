@@ -9,11 +9,15 @@ export default class CustomSettingsManager {
         max: Setting<number>
     }>
 
-    public show_floater: Setting<boolean> 
-
     public fpan_speed: Setting<number> 
     public cpan_speed: Setting<number> 
     public upan_speed: Setting<number> 
+
+    public use_ijkl: Setting<boolean>
+    public show_floater: Setting<boolean> 
+
+    public pan_zeroing_en: Setting<boolean>
+    public zoom_zeroing_en: Setting<boolean>
 
     constructor(on_edit: { cb: (settings: CustomSettingsManager) => void }) {
         const { Numlist, MultiSetting, SettingGroup } = def_classes()
@@ -71,6 +75,36 @@ export default class CustomSettingsManager {
             validator
         )
 
+        this.use_ijkl = new Setting(
+            "Use IJKL",
+            "use_ijkl",
+            settingType.BOOLEAN,
+            false,
+            false,
+            "Makes the mod use IJKL instead of WASD for panning (requires refresh)",
+            validator
+        )
+
+        this.pan_zeroing_en = new Setting(
+            "Enable pan zeroing",
+            "en_pzero",
+            settingType.BOOLEAN,
+            false,
+            true,
+            "Allows the Q key to reset pan (requires refresh)",
+            validator
+        )
+
+        this.zoom_zeroing_en = new Setting(
+            "Enable zoom zeroing",
+            "en_zzero",
+            settingType.BOOLEAN,
+            false,
+            true,
+            "Allows the P key to reset zoom. Doesn't work with set zoom levels (requires refresh)",
+            validator
+        )
+
         const zoom_levels = new Numlist(
             "Zoom levels",
             "zoom_levels",
@@ -124,8 +158,19 @@ export default class CustomSettingsManager {
         settings_tab.registerSettings(
             undefined, 
             this.canvas_bkg, 
+        )
+        
+        settings_tab.registerSettings(
+            "Controls",
+            this.use_ijkl,
             this.show_floater,
-            this.zoom,
+            this.pan_zeroing_en,
+            this.zoom_zeroing_en
+        )
+
+        settings_tab.registerSettings(
+            "Zoom",
+            this.zoom
         )
 
         settings_tab.registerSettings(
