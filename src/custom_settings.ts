@@ -158,12 +158,12 @@ export default class CustomSettingsManager {
         settings_tab.registerSettings(
             undefined, 
             this.canvas_bkg, 
+            this.show_floater,
         )
         
         settings_tab.registerSettings(
-            "Controls",
+            "Keybinds (requires reset)",
             this.use_ijkl,
-            this.show_floater,
             this.pan_zeroing_en,
             this.zoom_zeroing_en
         )
