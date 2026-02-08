@@ -2,5 +2,5 @@
 	path = sandboxels
 	url = https://github.com/R74nCom/sandboxels
 [submodule "types"]
-	path = types
+	path = Sandboxels-Types
 	url = https://github.com/R74nCom/Sandboxels-Types

@@ -7,5 +7,5 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "include": [ "src/*", "types/*.d.ts"]
+  "include": [ "src/*", "Sandboxels-Types/*.d.ts"]
 }
