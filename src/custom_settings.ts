@@ -13,7 +13,7 @@ export default class CustomSettingsManager {
     public cpan_speed: Setting<number> 
     public upan_speed: Setting<number> 
 
-    public use_ijkl: Setting<boolean>
+    public pan_keys: SelectSetting<"wasd" | "ijkl" | "">
     public show_floater: Setting<boolean> 
     public show_pos: Setting<boolean>
 
@@ -86,14 +86,16 @@ export default class CustomSettingsManager {
             validator
         )
 
-        this.use_ijkl = new Setting(
-            "Use IJKL",
-            "use_ijkl",
-            settingType.BOOLEAN,
+        this.pan_keys = new SelectSetting(
+            "Panning keys",
+            "pan_keys",
+            [
+                ["wasd", "WASD"],
+                ["ijkl", "IJKL"],
+                ["", "<none>"]
+            ],
             false,
-            false,
-            "Makes the mod use IJKL instead of WASD for panning (requires refresh)",
-            validator
+            "wasd"
         )
 
         this.pan_zeroing_en = new Setting(
@@ -175,7 +177,7 @@ export default class CustomSettingsManager {
         
         settings_tab.registerSettings(
             "Keybinds (requires reset)",
-            this.use_ijkl,
+            this.pan_keys,
             this.pan_zeroing_en,
             this.zoom_zeroing_en
         )

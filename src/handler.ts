@@ -131,27 +131,24 @@ export default class Handler {
     }
 
     patch_keybinds(){
-        const pan_keys = this.settings.use_ijkl.value
-            ? ["i", "j", "k", "l"]
-            : ["w", "a", "s", "d"]
-        
-        // Too lazy to DRY
-        const pan_keys_upper = this.settings.use_ijkl.value
-            ? ["I", "J", "K", "L"]
-            : ["W", "A", "S", "D"]
-
         keybinds["9"] = () => this.handle_zoom("in")
         keybinds["0"] = () => this.handle_zoom("out")
 
-        keybinds[pan_keys[0]] = ev => this.handle_pan("up",    this.kbd_speed_noshift(ev))
-        keybinds[pan_keys[1]] = ev => this.handle_pan("left",  this.kbd_speed_noshift(ev))
-        keybinds[pan_keys[2]] = ev => this.handle_pan("down",  this.kbd_speed_noshift(ev))
-        keybinds[pan_keys[3]] = ev => this.handle_pan("right", this.kbd_speed_noshift(ev))
+        if (this.settings.pan_keys.value !== "") {
+            // This is fine since they're all 4 letters except for the <none> option
+            const pan_keys = this.settings.pan_keys.value
+            const pan_keys_upper = pan_keys.toUpperCase()
 
-        keybinds[pan_keys_upper[0]] = () => this.handle_pan("up",    this.settings.fpan_speed.value)
-        keybinds[pan_keys_upper[1]] = () => this.handle_pan("left",  this.settings.fpan_speed.value)
-        keybinds[pan_keys_upper[2]] = () => this.handle_pan("down",  this.settings.fpan_speed.value)
-        keybinds[pan_keys_upper[3]] = () => this.handle_pan("right", this.settings.fpan_speed.value)
+            keybinds[pan_keys[0]] = ev => this.handle_pan("up",    this.kbd_speed_noshift(ev))
+            keybinds[pan_keys[1]] = ev => this.handle_pan("left",  this.kbd_speed_noshift(ev))
+            keybinds[pan_keys[2]] = ev => this.handle_pan("down",  this.kbd_speed_noshift(ev))
+            keybinds[pan_keys[3]] = ev => this.handle_pan("right", this.kbd_speed_noshift(ev))
+
+            keybinds[pan_keys_upper[0]] = () => this.handle_pan("up",    this.settings.fpan_speed.value)
+            keybinds[pan_keys_upper[1]] = () => this.handle_pan("left",  this.settings.fpan_speed.value)
+            keybinds[pan_keys_upper[2]] = () => this.handle_pan("down",  this.settings.fpan_speed.value)
+            keybinds[pan_keys_upper[3]] = () => this.handle_pan("right", this.settings.fpan_speed.value)
+        }
 
         if (this.settings.pan_zeroing_en.value) {
             keybinds["q"] = () => {
