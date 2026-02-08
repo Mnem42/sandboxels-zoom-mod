@@ -15,6 +15,7 @@ export default class CustomSettingsManager {
 
     public use_ijkl: Setting<boolean>
     public show_floater: Setting<boolean> 
+    public show_pos: Setting<boolean>
 
     public pan_zeroing_en: Setting<boolean>
     public zoom_zeroing_en: Setting<boolean>
@@ -72,6 +73,16 @@ export default class CustomSettingsManager {
             false,
             true,
             "Whether to show the floater or not",
+            validator
+        )
+
+        this.show_pos = new Setting(
+            "Show position overlay",
+            "show_pos_ovl",
+            settingType.BOOLEAN,
+            false,
+            true,
+            "Whether to show the zoom/pan overlay or not",
             validator
         )
 
@@ -159,6 +170,7 @@ export default class CustomSettingsManager {
             undefined, 
             this.canvas_bkg, 
             this.show_floater,
+            this.show_pos
         )
         
         settings_tab.registerSettings(

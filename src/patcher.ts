@@ -69,6 +69,7 @@ export default class Patcher {
 
     public update_from_settings() {
         this.floater_div.style.display = this.settings.show_floater.value ? "grid" : "none"
+        this.zoom_data_div.style.display = this.settings.show_pos.value ? "block" : "none"
         this.canvas_div.style.backgroundColor = this.settings.canvas_bkg.value ?? "#252525"
     }
 }
