@@ -40,6 +40,57 @@ export default class Handler {
             return {x:x, y:y};
         }
 
+        window.wheelHandle = (e) => {
+			e.preventDefault();
+
+            if (e.shiftKey) {
+                const mul = this.settings.scroll_zoom_multiplier.value 
+
+                // Scaled like this so the entered value doesn't have to be really small (and kinda
+                // inconvenient)
+                let new_level;
+
+                if (this.settings.zoom.value == 0) {
+                    const zoom_level_count = this.settings.zoom.settings[0].value.length
+
+                    new_level = this.zoom_level + Math.round(e.deltaY * mul / 5)
+                    new_level = Math.min(new_level, zoom_level_count - 1)
+                    new_level = Math.max(new_level, 0)
+                }
+                else {
+                    new_level = this.zoom_level + e.deltaY * mul / 1000
+                }
+                
+                const max = this.settings.unl_zoom.settings.max.value
+                const min = this.settings.unl_zoom.settings.min.value
+
+                if      (new_level > max) { this.zoom_level = max }
+                else if (new_level < min) { this.zoom_level = min }
+                else                      { this.zoom_level = parseFloat(new_level.toPrecision(3)) }
+                this.update()
+                return
+            }
+
+			// check if scroll is within the last 25ms
+			if (new Date().getTime() - lastScroll < 25) {
+				return;
+			}
+			lastScroll = new Date().getTime();
+			var deltaY = e.deltaY;
+			if (window.settings.invertscroll) {
+				if (deltaY > 0) { deltaY = 1; }
+				else { deltaY = -1; }
+			}
+			else {
+				if (deltaY < 0) { deltaY = 1; }
+				else { deltaY = -1; }
+			}
+			mouseSize += Math.round(deltaY);
+			checkMouseSize(Math.sign(deltaY));
+		}
+
+        this.patcher.canvas_div.addEventListener("wheel", wheelHandle)
+
         runAfterReset(() => {
             this.zoom_level = 1
             this.zoom_panning = [0, 0]

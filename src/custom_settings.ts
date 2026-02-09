@@ -17,6 +17,9 @@ export default class CustomSettingsManager {
     public show_floater: Setting<boolean> 
     public show_pos: Setting<boolean>
 
+    public enable_scroll_zoom: Setting<boolean>
+    public scroll_zoom_multiplier: Setting<number>
+
     public pan_zeroing_en: Setting<boolean>
     public zoom_zeroing_en: Setting<boolean>
 
@@ -96,6 +99,26 @@ export default class CustomSettingsManager {
             ],
             false,
             "wasd"
+        )
+
+        this.enable_scroll_zoom = new Setting(
+            "Use shift+scroll for zoom",
+            "enable_scroll_zoom",
+            settingType.BOOLEAN,
+            false,
+            true,
+            "Whether to use shift+scroll for zooming or not",
+            validator
+        )
+
+        this.scroll_zoom_multiplier = new Setting(
+            "Scroll zoom multiplier", 
+            "scroll_zoom_mul", 
+            settingType.NUMBER, 
+            false, 
+            1,
+            "Multiplier for scroll zoom speed",
+            validator
         )
 
         this.pan_zeroing_en = new Setting(
@@ -180,6 +203,12 @@ export default class CustomSettingsManager {
             this.pan_keys,
             this.pan_zeroing_en,
             this.zoom_zeroing_en
+        )
+
+        settings_tab.registerSettings(
+            "Mouse",
+            this.enable_scroll_zoom,
+            this.scroll_zoom_multiplier
         )
 
         settings_tab.registerSettings(
