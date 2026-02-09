@@ -17,7 +17,7 @@ export default class Handler {
         this.patch_floater()
 
         // Redefine to give correct numbers when zoomed
-        window.getMousePos = (canvas: HTMLCanvasElement, evt: TouchEvent) => {
+        window.getMousePos = (canvas, evt) => {
             if (evt.touches) {
                 evt.preventDefault();
                 // @ts-expect-error going to trust the sandboxels source to be right
