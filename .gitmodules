@@ -4,3 +4,6 @@
 [submodule "types"]
 	path = Sandboxels-Types
 	url = https://github.com/R74nCom/Sandboxels-Types
+[submodule "sandboxels-mods"]
+	path = Sandboxels-Mods
+	url = https://github.com/R74nCom/Sandboxels-Mods

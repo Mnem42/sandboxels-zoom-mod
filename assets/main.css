@@ -3,11 +3,11 @@
 
 @media(pointer=coarse){
     #zm_floater_container#zm_floater_container { 
-        width: 40%;
+        width: calc(40% * var(--zm-floater-scale));
         height: auto;
     }
     #zm_floater_container:has(#zm_collapse[data-collapsed="true"]){
-        width: calc(40% / 3);
+        width: calc(40% / 3 * var(--zm-floater-scale));
     }
 }
 
@@ -17,7 +17,7 @@
         top: 5px;
     }
     #zm_floater_container:has(#zm_collapse[data-collapsed="true"]){
-        width: calc(40% / 3);
+        width: calc(40% / 3 * var(--zm-floater-scale));
     }
 }
 
@@ -28,15 +28,15 @@
 
     right: 5px;
     bottom: 5px;
-    height: 100px;
+    height: calc(100px * var(--zm-floater-scale));
     aspect-ratio: 1;
 
-    max-width: 200px;
-    max-height: 200px;
+    max-width:  calc(200px * var(--zm-floater-scale));
+    max-height: calc(200px * var(--zm-floater-scale));
 
     border: 2px solid white;
     background-color: black;
-    font-size: 120%;
+    font-size: calc(120% * var(--zm-floater-scale));
 
     button { text-align: center; border: 0px solid white }
 

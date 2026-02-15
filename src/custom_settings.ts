@@ -14,8 +14,10 @@ export default class CustomSettingsManager {
     public upan_speed: Setting<number> 
 
     public pan_keys: SelectSetting<"wasd" | "ijkl" | "">
-    public show_floater: Setting<boolean> 
     public show_pos: Setting<boolean>
+
+    public show_floater: Setting<boolean> 
+    public floater_scale: Setting<number>
 
     public enable_scroll_zoom: Setting<boolean>
     public scroll_zoom_multiplier: Setting<number>
@@ -78,6 +80,16 @@ export default class CustomSettingsManager {
             "Whether to show the floater or not",
             validator
         )
+
+        this.floater_scale = new Setting(
+            "Floater scale", 
+            "floater_scale", 
+            settingType.NUMBER, 
+            false, 
+            1,
+            "The floater scale",
+            validator
+        );
 
         this.show_pos = new Setting(
             "Show position overlay",
@@ -194,8 +206,9 @@ export default class CustomSettingsManager {
         settings_tab.registerSettings(
             undefined, 
             this.canvas_bkg, 
+            this.show_pos,
             this.show_floater,
-            this.show_pos
+            this.floater_scale
         )
         
         settings_tab.registerSettings(

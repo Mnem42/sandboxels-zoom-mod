@@ -4,8 +4,6 @@ import MAIN_CSS from "../assets/main.css"
 import MULTISETTING_CSS from "../assets/multisetting.css"
 import CTRL_INFO from "../assets/ctrl_info.html"
 import FLOATER from "../assets/floater.html"
-import SPINNER_CSS from "../assets/spinner.css"
-
 export default class Patcher {
     public zoom_data_div: HTMLElement
     floater_div: HTMLElement
@@ -23,7 +21,7 @@ export default class Patcher {
 
         dependOn("betterSettings.js", () => {
             const style_div = document.createElement("style")
-            style_div.innerHTML = NUMLIST_CSS + MULTISETTING_CSS + SPINNER_CSS
+            style_div.innerHTML = NUMLIST_CSS + MULTISETTING_CSS
 
             document.head.appendChild(style_div)
         })
@@ -64,6 +62,10 @@ export default class Patcher {
             for (const elem of document.querySelectorAll("#betterSettings\\/div\\/zoom\\.js span.setting-span input")) {
                 elem.addEventListener(elem.classList.contains("toggleInput") ? "click" : "change", cb)
             }
+
+            //! Bandaid fix to keep the UI normal looking
+            document.querySelectorAll(`#betterSettings\\/div\\/zoom\\.js input[id^=betterSettings]`)
+                .forEach(x => x.classList.add("settingsInput"))
         })
     }
 
@@ -71,5 +73,10 @@ export default class Patcher {
         this.floater_div.style.display = this.settings.show_floater.value ? "grid" : "none"
         this.zoom_data_div.style.display = this.settings.show_pos.value ? "block" : "none"
         this.canvas_div.style.backgroundColor = this.settings.canvas_bkg.value ?? "#252525"
+        
+        document.documentElement.style.setProperty(
+            "--zm-floater-scale",
+            this.settings.floater_scale.value.toString()
+        )
     }
 }

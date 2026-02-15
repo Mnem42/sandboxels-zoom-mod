@@ -33,6 +33,7 @@ export const def_classes = () => {
             elem.type = "number"
             elem.value = value.toString()
             elem.step = this.step.toString()
+            elem.classList.add("settingsInput")
 
             elem.onchange = (ev) => {
                 const parsed = Number.parseFloat((ev.target as HTMLInputElement).value)
