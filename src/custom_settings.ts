@@ -4,8 +4,9 @@ export default class CustomSettingsManager {
     public canvas_bkg: Setting<string>
     public zoom: GNumList<[Numlist, typeof this.unl_zoom]>
     public unl_zoom: GSettingGroup<{
-        kbd_speed: Setting<number>, 
         mouse_speed: Setting<number>,
+        invert_scroll: Setting<boolean>,
+        kbd_speed: Setting<number>, 
         min: Setting<number>, 
         max: Setting<number>
     }>
@@ -143,15 +144,6 @@ export default class CustomSettingsManager {
         )
 
         this.unl_zoom = new SettingGroup({
-            kbd_speed: new Setting(
-                "Zoom speed", 
-                "unl_zoom_speed", 
-                settingType.NUMBER, 
-                false, 
-                2,
-                "The zoom magnitude (as the multiplier to the zoom level every time zoom is used)",
-                validator
-            ),
             mouse_speed: new Setting(
                 "Scroll zoom speed", 
                 "scroll_zoom_speed", 
@@ -159,6 +151,24 @@ export default class CustomSettingsManager {
                 false, 
                 1,
                 "Speed for zooming with the scroll wheel",
+                validator
+            ),
+            invert_scroll: new Setting(
+                "Invert scroll",
+                "invert_scroll",
+                settingType.BOOLEAN,
+                false,
+                false,
+                "Whether to invert scroll or not",
+                validator
+            ),
+            kbd_speed: new Setting(
+                "Zoom speed", 
+                "unl_zoom_speed", 
+                settingType.NUMBER, 
+                false, 
+                2,
+                "The zoom magnitude (as the multiplier to the zoom level every time zoom is used)",
                 validator
             ),
             min: new Setting(
@@ -179,7 +189,7 @@ export default class CustomSettingsManager {
                 "The upper zoom limit (reducing may lead to rounding error coming back from very high levels)",
                 validator
             )
-        })
+        } as const)
 
 
         this.zoom = new MultiSetting(

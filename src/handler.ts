@@ -44,7 +44,10 @@ export default class Handler {
 			e.preventDefault();
 
             if (e.shiftKey) {
-                const speed = this.settings.unl_zoom.settings.mouse_speed.value 
+                // mmmm incredibly chonky paths
+                const speed = 
+                    this.settings.unl_zoom.settings.mouse_speed.value *
+                    (this.settings.unl_zoom.settings.invert_scroll.value ? -1 : 1)
 
                 const new_level = this.zoom_level + e.deltaY * speed / 1000
 
