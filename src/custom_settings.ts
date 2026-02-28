@@ -4,7 +4,8 @@ export default class CustomSettingsManager {
     public canvas_bkg: Setting<string>
     public zoom: GNumList<[Numlist, typeof this.unl_zoom]>
     public unl_zoom: GSettingGroup<{
-        speed: Setting<number>, 
+        kbd_speed: Setting<number>, 
+        mouse_speed: Setting<number>,
         min: Setting<number>, 
         max: Setting<number>
     }>
@@ -18,9 +19,6 @@ export default class CustomSettingsManager {
 
     public show_floater: Setting<boolean> 
     public floater_scale: Setting<number>
-
-    public enable_scroll_zoom: Setting<boolean>
-    public scroll_zoom_multiplier: Setting<number>
 
     public pan_zeroing_en: Setting<boolean>
     public zoom_zeroing_en: Setting<boolean>
@@ -113,26 +111,6 @@ export default class CustomSettingsManager {
             "wasd"
         )
 
-        this.enable_scroll_zoom = new Setting(
-            "Use shift+scroll for zoom",
-            "enable_scroll_zoom",
-            settingType.BOOLEAN,
-            false,
-            true,
-            "Whether to use shift+scroll for zooming or not",
-            validator
-        )
-
-        this.scroll_zoom_multiplier = new Setting(
-            "Scroll zoom multiplier", 
-            "scroll_zoom_mul", 
-            settingType.NUMBER, 
-            false, 
-            1,
-            "Multiplier for scroll zoom speed",
-            validator
-        )
-
         this.pan_zeroing_en = new Setting(
             "Enable pan zeroing",
             "en_pzero",
@@ -165,13 +143,22 @@ export default class CustomSettingsManager {
         )
 
         this.unl_zoom = new SettingGroup({
-            speed: new Setting(
+            kbd_speed: new Setting(
                 "Zoom speed", 
                 "unl_zoom_speed", 
                 settingType.NUMBER, 
                 false, 
                 2,
                 "The zoom magnitude (as the multiplier to the zoom level every time zoom is used)",
+                validator
+            ),
+            mouse_speed: new Setting(
+                "Scroll zoom speed", 
+                "scroll_zoom_speed", 
+                settingType.NUMBER, 
+                false, 
+                1,
+                "Speed for zooming with the scroll wheel",
                 validator
             ),
             min: new Setting(
@@ -216,12 +203,6 @@ export default class CustomSettingsManager {
             this.pan_keys,
             this.pan_zeroing_en,
             this.zoom_zeroing_en
-        )
-
-        settings_tab.registerSettings(
-            "Mouse",
-            this.enable_scroll_zoom,
-            this.scroll_zoom_multiplier
         )
 
         settings_tab.registerSettings(
