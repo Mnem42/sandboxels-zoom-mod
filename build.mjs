@@ -17,16 +17,19 @@ await esbuild.build({
     bundle: true,
 
     loader: {
+        // Force .html, .svg, and .css to load as text
         ".html": "text",
         ".css": "text",
-        ".png": "dataurl"
+        ".svg": "text"
     },
 
     banner: {
         js: `// ${MOD_NAME}.js`
     },
-}).then((result) =>{
+}).then(async (result) =>{
     let stats = fs.statSync(`sandboxels/mods/${MOD_NAME}.js`)
     console.log("Build finished")
     console.log("Build output size: ", stats.size, "(B)")
+
+    fs.copyFile(`sandboxels/mods/${MOD_NAME}.js`, `sandboxels-mods/mods/${MOD_NAME}.js`, () => console.log("File copied"))
 })
