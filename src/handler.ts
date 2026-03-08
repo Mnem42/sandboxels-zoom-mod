@@ -24,20 +24,13 @@ export default class Handler {
                 evt = evt.touches[0];
                 isMobile = true;
             }
-            const rect = canvas.getBoundingClientRect();
 
             // @ts-expect-error ___
             const clx = evt.clientX
             // @ts-expect-error ___
             const cly = evt.clientY
 
-            let x = (clx - rect.left) / this.scale()
-            let y = (cly - rect.top ) / this.scale()
-
-            x = Math.floor((x / canvas.clientWidth) * (width+1));
-            y = Math.floor((y / canvas.clientHeight) * (height+1));
-
-            return {x:x, y:y};
+            return this.mouse_to_world(clx, cly)
         }
 
         const wheel_handler = (e: WheelEvent) => {
@@ -74,6 +67,18 @@ export default class Handler {
             this.zoom_panning = [0, 0]
             this.update()
         })
+    }
+
+    public mouse_to_world(x: number, y: number){
+        const rect = canvas.getBoundingClientRect()
+
+        const x_scaled = (x - rect.left) / this.scale()
+        const y_scaled = (y - rect.top ) / this.scale()
+
+        return {
+            x: Math.floor((x_scaled / canvas.clientWidth) * (width+1)),
+            y: Math.floor((y_scaled / canvas.clientHeight) * (height+1))
+        }
     }
 
     public handle_zoom(direction: "in" | "out"){
